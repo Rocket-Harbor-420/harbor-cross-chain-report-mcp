@@ -1,0 +1,40 @@
+name: Publish Harbor MCP server to the official registry
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Install official MCP publisher
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$(uname -m)" in
+            x86_64) arch=amd64 ;;
+            aarch64) arch=arm64 ;;
+            *) echo "Unsupported architecture" >&2; exit 1 ;;
+          esac
+          curl -fsSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_${arch}.tar.gz" -o /tmp/mcp-publisher.tar.gz
+          tar -xzf /tmp/mcp-publisher.tar.gz -C /tmp mcp-publisher
+          chmod +x /tmp/mcp-publisher
+
+      - name: Validate manifest
+        run: /tmp/mcp-publisher validate server.json
+
+      - name: Authenticate with GitHub OIDC
+        run: /tmp/mcp-publisher login github-oidc
+
+      - name: Publish server metadata
+        run: /tmp/mcp-publisher publish server.json
