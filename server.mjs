@@ -95,7 +95,7 @@ async function getQuote(args) {
   if (!response.ok) return textResult({ httpStatus: response.status, error: quote }, true);
   return textResult({
     quote,
-    paymentFlow: "Direct Base USDC transfer to the operator; no x402, no custody, and this tool never initiates a transfer.",
+    paymentFlow: "Direct Base USDC transfer to the operator; no custody, and this tool never initiates a transfer.",
     confirmationsRequired: 12,
     signingMessageTemplate: signingMessageTemplate(args.addresses),
     signingNote: "After the user authorizes and sends the transfer, replace the tx placeholder with the lowercase Base transaction hash and have the payer wallet personal_sign this exact UTF-8 message. Signing sends no funds.",
