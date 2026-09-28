@@ -1,0 +1,17 @@
+{
+  "name": "harbor-cross-chain-report-mcp",
+  "version": "0.1.0",
+  "description": "MCP stdio server for paid read-only cross-chain contract reports.",
+  "type": "module",
+  "bin": {
+    "harbor-cross-chain-report-mcp": "./server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rocket-Harbor-420/harbor-cross-chain-report-mcp.git"
+  }
+}
