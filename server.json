@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.rocket-harbor-420/harbor-cross-chain-report",
+  "name": "io.github.Rocket-Harbor-420/harbor-cross-chain-report",
   "title": "Harbor Crew Cross-Chain Report",
   "description": "Read-only reports for 1–5 public EVM addresses across four chains; 0.02 USDC on Base.",
   "version": "0.1.0",
