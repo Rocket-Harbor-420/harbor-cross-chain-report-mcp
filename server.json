@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.rocket-harbor-420/harbor-cross-chain-report",
+  "title": "Harbor Crew Cross-Chain Report",
+  "description": "Opt-in, read-only batch snapshots for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One, and Polygon. Includes block numbers, EIP-7702 delegation indicators, code sizes, SHA-256 fingerprints, and explorer links. Reports cost 0.02 native USDC on Base, paid directly to the operator; this server never signs or sends payments.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/Rocket-Harbor-420/harbor-cross-chain-report-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp"
+    }
+  ]
+}
