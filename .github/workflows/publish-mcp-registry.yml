@@ -1,6 +1,11 @@
 name: Publish Harbor MCP server to the official registry
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - server.json
   workflow_dispatch:
 
 permissions:
