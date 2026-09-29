@@ -18,7 +18,7 @@ const tools = [
       properties: {
         paymentRailId: {
           type: "string",
-          description: "Optional rail ID from the live quote, such as base-usdc or bsc-bsc-usd. Defaults to base-usdc for backward compatibility.",
+          description: "Optional rail ID from the live quote, such as base-usdc. Defaults to base-usdc for backward compatibility.",
         },
         addresses: {
           type: "array",

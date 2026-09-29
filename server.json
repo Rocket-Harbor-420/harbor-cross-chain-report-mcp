@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Rocket-Harbor-420/harbor-cross-chain-report",
   "title": "Harbor Crew Cross-Chain Report",
-  "description": "EVM reports for 1–5 public addresses. Direct payment: 0.02 USDC, USDT, or Binance-Peg BSC-USD.",
+  "description": "EVM reports for 1–5 public addresses. Direct payment: 0.02 USDC on Ethereum, Base, Arbitrum One, or Polygon; or 0.02 USDT on Ethereum.",
   "version": "0.1.2",
   "repository": {
     "url": "https://github.com/Rocket-Harbor-420/harbor-cross-chain-report-mcp",
