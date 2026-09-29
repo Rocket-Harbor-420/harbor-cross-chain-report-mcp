@@ -11,7 +11,9 @@ The report includes network block numbers, EIP-7702 delegation indicators, contr
 
 ## Payment and consent
 
-Each paid report covers one batch of 1–5 public EVM addresses across Ethereum, Base, Arbitrum One, and Polygon PoS. The price is 0.02 USDC on Ethereum, Base, Arbitrum One, or Polygon PoS, or 0.02 USDT on Ethereum. Payment goes directly to the operator. The MCP server never initiates a transfer or signs a payment. A user must review the live quote and explicitly choose to pay before sending funds. The API requires 12 confirmations on the selected network and a `personal_sign` signature that binds the address batch, payment rail, network, and transaction hash; that signature authorizes only the report request and cannot move funds.
+Each paid report covers one batch of 1–5 public EVM addresses across Ethereum, Base, Arbitrum One, and Polygon PoS. The price is 0.02 USDC on Ethereum, Base, Arbitrum One, or Polygon PoS; 0.02 USDT on Ethereum; or 0.02 Binance-Peg BSC-USD (BEP-20) on BNB Smart Chain. BSC-USD is not native Tether USDt. Payment goes directly to the operator. The MCP server never initiates a transfer or signs a payment. A user must review the live quote and explicitly choose the network and asset before sending funds. The API requires 12 confirmations on the selected network and a `personal_sign` signature that binds the address batch, payment rail, network, and transaction hash; that signature authorizes only the report request and cannot move funds.
+
+`get_payment_quote` accepts an optional `paymentRailId` from the live quote, such as `bsc-bsc-usd`, and returns a rail-specific version 2 signing-message template. Pass the same `paymentRailId` to `submit_paid_report`. Omitting it retains compatibility with older Base USDC requests.
 
 Never provide a seed phrase or private key. Only submit addresses that are public and that you want included in the report. Check the live quote before every payment; the API is authoritative for the amount and destination.
 

@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Rocket-Harbor-420/harbor-cross-chain-report",
   "title": "Harbor Crew Cross-Chain Report",
-  "description": "Read-only EVM reports (1–5); 0.02 USDC on Ethereum/Base/Arbitrum/Polygon or USDT on Ethereum.",
-  "version": "0.1.1",
+  "description": "Read-only EVM reports (1–5 addresses); 0.02 USDC on Ethereum, Base, Arbitrum, or Polygon; USDT on Ethereum; or Binance-Peg BSC-USD on BNB Smart Chain.",
+  "version": "0.1.2",
   "repository": {
     "url": "https://github.com/Rocket-Harbor-420/harbor-cross-chain-report-mcp",
     "source": "github"
@@ -14,5 +14,11 @@
       "type": "streamable-http",
       "url": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp"
     }
-  ]
+  ],
+  "_meta": {
+    "io.mcpregistry/license": "MIT",
+    "io.mcpregistry/tags": ["evm", "blockchain", "cross-chain", "reporting", "ethereum", "base", "arbitrum", "polygon", "bnb-smart-chain", "bsc", "usdc", "usdt", "bsc-usd", "binance-peg"],
+    "io.mcpregistry/tools": ["get_cross_chain_report_quote", "submit_paid_cross_chain_report"],
+    "io.mcpregistry/transport": "streamable-http"
+  }
 }

@@ -11,11 +11,15 @@ const PROTOCOL_VERSIONS = new Set(["2025-11-25", "2025-06-18", "2025-03-26", "20
 const tools = [
   {
     name: "get_payment_quote",
-    title: "Get a direct USDC report quote",
-    description: "Read the live price, Base USDC contract, operator address, supported networks, and confirmation requirement. This does not send funds. If addresses are supplied, it also formats the exact personal_sign message template for after payment.",
+    title: "Get a direct report quote",
+    description: "Read the live price, supported EVM payment rails, token contract, operator address, and confirmation requirement. Choose a paymentRailId from the quote; this tool never sends funds.",
     inputSchema: {
       type: "object",
       properties: {
+        paymentRailId: {
+          type: "string",
+          description: "Optional rail ID from the live quote, such as base-usdc or bsc-bsc-usd. Defaults to base-usdc for backward compatibility.",
+        },
         addresses: {
           type: "array",
           minItems: 1,
@@ -32,13 +36,14 @@ const tools = [
   {
     name: "submit_paid_report",
     title: "Submit payment proof for a cross-chain report",
-    description: "After the user has explicitly chosen to buy and has already sent the exact USDC transfer, submit its public transaction hash, payer address, 1–5 public EVM addresses, and the payer's personal_sign signature. This server never sends or signs a payment. The signature authorizes only the report request and cannot move funds. Never provide a private key or seed phrase.",
+    description: "After the user has explicitly chosen to buy and has already sent the exact quoted asset on the selected EVM rail, submit paymentRailId, transaction hash, payer address, 1–5 public EVM addresses, and the payer's personal_sign signature. This server never sends or signs a payment. The signature authorizes only the report request and cannot move funds. Never provide a private key or seed phrase.",
     inputSchema: {
       type: "object",
       required: ["txHash", "payerAddress", "addresses", "signature"],
       properties: {
-        txHash: { type: "string", pattern: "^0x[0-9a-fA-F]{64}$", description: "Confirmed Base transaction hash for the direct USDC transfer." },
-        payerAddress: { type: "string", pattern: "^0x[0-9a-fA-F]{40}$", description: "Address that sent the USDC and will sign the report authorization." },
+        paymentRailId: { type: "string", description: "The exact payment rail ID selected from get_payment_quote. Omit only for older Base USDC payments." },
+        txHash: { type: "string", pattern: "^0x[0-9a-fA-F]{64}$", description: "Confirmed transaction hash on the selected EVM payment network." },
+        payerAddress: { type: "string", pattern: "^0x[0-9a-fA-F]{40}$", description: "Address that sent the selected payment asset and will sign the report authorization." },
         addresses: {
           type: "array",
           minItems: 1,
@@ -67,15 +72,16 @@ function validateAddressBatch(addresses) {
   return normalized.sort();
 }
 
-function signingMessageTemplate(addresses) {
+function signingMessageTemplate(addresses, paymentRail) {
   const list = Array.isArray(addresses)
     ? validateAddressBatch(addresses).join(",")
     : "<lowercase EVM addresses, comma-separated and sorted lexicographically>";
   return [
     "The Harbor Crew Cross-Chain Report",
-    "version=1",
-    "chainId=8453",
-    "tx=<lowercase Base transaction hash>",
+    "version=2",
+    "chainId=" + BigInt(paymentRail.chainId).toString(),
+    "paymentRail=" + paymentRail.id,
+    "tx=<lowercase " + paymentRail.network + " transaction hash>",
     "addresses=" + list,
   ].join("\n");
 }
@@ -93,12 +99,18 @@ async function getQuote(args) {
   });
   const quote = await readJsonResponse(response);
   if (!response.ok) return textResult({ httpStatus: response.status, error: quote }, true);
+  const paymentRailId = args.paymentRailId ?? "base-usdc";
+  const paymentRail = quote.paymentRails?.find((rail) => rail.id === paymentRailId);
+  if (!paymentRail) {
+    return textResult({ error: "Choose a paymentRailId from the live quote.", supportedPaymentRails: quote.paymentRails || [] }, true);
+  }
   return textResult({
     quote,
-    paymentFlow: "Direct Base USDC transfer to the operator; no custody, and this tool never initiates a transfer.",
-    confirmationsRequired: 12,
-    signingMessageTemplate: signingMessageTemplate(args.addresses),
-    signingNote: "After the user authorizes and sends the transfer, replace the tx placeholder with the lowercase Base transaction hash and have the payer wallet personal_sign this exact UTF-8 message. Signing sends no funds.",
+    selectedPaymentRail: paymentRail,
+    paymentFlow: `Manual direct ${paymentRail.amount} ${paymentRail.asset} transfer on ${paymentRail.network} to the quoted operator recipient; no custody, and this tool never initiates a transfer.`,
+    confirmationsRequired: Number(paymentRail.confirmationsRequired),
+    signingMessageTemplate: signingMessageTemplate(args.addresses, paymentRail),
+    signingNote: `After the user authorizes and sends the exact transfer on ${paymentRail.network}, replace the tx placeholder with that transaction's lowercase hash and have the payer wallet personal_sign this exact UTF-8 message. Signing sends no funds.`,
   });
 }
 
@@ -107,10 +119,17 @@ async function submitReport(args) {
     throw new Error("txHash, payerAddress, and signature must use the formats shown in the tool schema.");
   }
   validateAddressBatch(args.addresses);
+  const request = {
+    txHash: args.txHash,
+    payerAddress: args.payerAddress,
+    addresses: args.addresses,
+    signature: args.signature,
+  };
+  if (typeof args.paymentRailId === "string") request.paymentRailId = args.paymentRailId;
   const response = await fetch(REPORT_URL, {
     method: "POST",
     headers: { accept: "application/json", "content-type": "application/json" },
-    body: JSON.stringify(args),
+    body: JSON.stringify(request),
     signal: typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(90000) : undefined,
   });
   const result = await readJsonResponse(response);
@@ -147,8 +166,8 @@ async function handleMessage(message) {
     return response(message.id, {
       protocolVersion,
       capabilities: { tools: { listChanged: false } },
-      serverInfo: { name: "harbor-cross-chain-report", version: "0.1.0" },
-      instructions: "Use get_payment_quote before any purchase. Obtain the user's explicit approval before any USDC transfer. This server never transfers funds. Submit a paid report only after the payer has sent the exact Base USDC transfer and signed the returned message. Never request or transmit seed phrases or private keys.",
+      serverInfo: { name: "harbor-cross-chain-report", version: "0.1.2" },
+      instructions: "Use get_payment_quote to view accepted EVM rails, then let the user choose the network and asset. Obtain explicit user approval before any transfer. This server never transfers funds. Submit a paid report only after the payer has sent the exact quoted amount and signed the returned paymentRailId-bound message. Never request or transmit seed phrases or private keys.",
     });
   }
   if (message.method === "ping") return response(message.id, {});
