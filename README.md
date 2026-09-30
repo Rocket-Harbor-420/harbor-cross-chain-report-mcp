@@ -42,6 +42,8 @@ Requires Node.js 20 or newer. Start the MCP server directly from the public GitH
 }
 ```
 
+If your MCP client supports remote Streamable HTTP servers, connect directly to `https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/mcp` and skip the local install.
+
 The first start downloads the repository through npm and launches its single CLI entry point. No account, API key, private key, or seed phrase is required to run the MCP server. It communicates over stdio and sends HTTPS requests only to the published report API.
 
 ## Run from a local clone

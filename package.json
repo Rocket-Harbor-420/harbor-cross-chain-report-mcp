@@ -1,6 +1,6 @@
 {
   "name": "harbor-cross-chain-report-mcp",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Remote and stdio MCP for free previews and paid read-only EVM delegation reports.",
   "type": "module",
   "bin": {
