@@ -1,5 +1,7 @@
 # Harbor Cross-Chain Report MCP
 
+[![Listed on Global A2A Registry](https://www.a2a-registry.org/badges/listed-badge-light.svg)](https://www.a2a-registry.org/agent/site.chatgpt.harbor_cross_chain_report_agent)
+
 A dependency-free MCP stdio server for the [Harbor Crew paid report API](https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report). It requests read-only snapshots for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One, and Polygon.
 
 The report includes network block numbers, EIP-7702 delegation indicators, contract-code sizes, SHA-256 fingerprints, and explorer links. It does not inspect balances or private keys, prove ownership or malicious intent, or recover assets.
