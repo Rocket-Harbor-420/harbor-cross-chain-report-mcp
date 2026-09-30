@@ -6,6 +6,8 @@ A dependency-free MCP server for the [Harbor Crew report service](https://resgua
 
 **Try the free preview first:** [open the report page](https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report) for a one-network, code-only preview. A full JSON report is 0.02 in the asset and network selected from the live quote. The six direct-payment rails are USDC on Ethereum, Base, Arbitrum One, or Polygon; USDT on Ethereum; and Binance-Peg BSC-USD on BNB Smart Chain. BSC-USD is distinct from native USDT.
 
+See [`examples/base-usdc-free-preview.json`](examples/base-usdc-free-preview.json) for a dated, reproducible example using the public Base USDC contract. It is a free preview snapshot, not a customer report or a claim about a wallet.
+
 The report includes network block numbers, EIP-7702 delegation indicators, contract-code sizes, SHA-256 fingerprints, and explorer links. It does not inspect balances or private keys, prove ownership or malicious intent, or recover assets.
 
 ## Tools

@@ -1,0 +1,14 @@
+{
+  "sampleType": "free-public-contract-preview",
+  "source": "https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/api/v1/delegation-report?network=base&addresses=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "snapshotAt": "2026-09-30T01:46:46.383Z",
+  "network": "base",
+  "results": [
+    {
+      "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "status": "contract-code",
+      "codeBytes": 1852
+    }
+  ],
+  "disclaimer": "The EIP-7702 indicator only identifies a delegation target. Code size and SHA-256 help compare the current public bytecode; neither proves malicious intent, wallet ownership, or authority to recover funds. This dated sample uses a public token contract and is not a customer report."
+}
