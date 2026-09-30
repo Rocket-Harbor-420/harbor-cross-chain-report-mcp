@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Rocket-Harbor-420/harbor-cross-chain-report",
   "title": "Harbor Crew Cross-Chain Report",
-  "description": "Free one-network preview; paid JSON for 1–5 EVM addresses, 0.02 USDC/USDT/BSC-USD direct.",
+  "description": "Paid read-only reports for 1–5 EVM addresses across four networks; 0.02 supported stablecoin direct.",
   "version": "0.1.4",
   "repository": {
     "url": "https://github.com/Rocket-Harbor-420/harbor-cross-chain-report-mcp",
@@ -16,3 +16,4 @@
     }
   ]
 }
+
