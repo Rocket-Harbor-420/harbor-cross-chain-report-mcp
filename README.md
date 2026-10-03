@@ -2,6 +2,8 @@
 
 
 [![Listed on Global A2A Registry](https://www.a2a-registry.org/badges/listed-badge-light.svg)](https://www.a2a-registry.org/agent/site.chatgpt.harbor_cross_chain_report_agent)
+[![MCP security grade A](https://gateturbo.com/badge/scan/765251fd-a5af-4e02-a0e7-6b85838e6174)](https://gateturbo.com/report/765251fd-a5af-4e02-a0e7-6b85838e6174)
+[![MCP Endpoint Check security grade A](https://gateturbo.com/badge/scan/26756b96-0236-4746-bcb4-66265afb5faa)](https://gateturbo.com/report/26756b96-0236-4746-bcb4-66265afb5faa)
 
 
 A dependency-free MCP server for the [Harbor Crew report service](https://resguardo-wallets-260926.tiweedmaster.chatgpt.site/paid-report), available as both a hosted remote MCP and a local stdio server. It requests read-only snapshots for 1–5 public EVM addresses across Ethereum, Base, Arbitrum One, and Polygon.
